@@ -15,6 +15,7 @@
 		8238561B1C0C7F4500AB2837 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 823856191C0C7F4500AB2837 /* LaunchScreen.storyboard */; };
 		823856261C0C7F4500AB2837 /* Nodes3DTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 823856251C0C7F4500AB2837 /* Nodes3DTests.swift */; };
 		829065C81C0C85BF006F2862 /* ParseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829065C71C0C85BF006F2862 /* ParseManager.swift */; };
+		829065CB1C0CD76B006F2862 /* SceneRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 829065CA1C0CD76B006F2862 /* SceneRenderer.swift */; };
 		FB5B0EE76A7E8459CEF1CCB5 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C458FB7D03B61B36056DD664 /* Pods.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +43,7 @@
 		823856251C0C7F4500AB2837 /* Nodes3DTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nodes3DTests.swift; sourceTree = "<group>"; };
 		823856271C0C7F4500AB2837 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		829065C71C0C85BF006F2862 /* ParseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseManager.swift; sourceTree = "<group>"; };
+		829065CA1C0CD76B006F2862 /* SceneRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneRenderer.swift; sourceTree = "<group>"; };
 		C458FB7D03B61B36056DD664 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF1A7B4458CC2671A19C81A9 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -138,6 +140,7 @@
 		829065C51C0C85A8006F2862 /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				829065C91C0CD74D006F2862 /* scene */,
 			);
 			name = modules;
 			sourceTree = "<group>";
@@ -148,6 +151,14 @@
 				829065C71C0C85BF006F2862 /* ParseManager.swift */,
 			);
 			name = db;
+			sourceTree = "<group>";
+		};
+		829065C91C0CD74D006F2862 /* scene */ = {
+			isa = PBXGroup;
+			children = (
+				829065CA1C0CD76B006F2862 /* SceneRenderer.swift */,
+			);
+			name = scene;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -307,6 +318,7 @@
 				823856131C0C7F4500AB2837 /* GameViewController.swift in Sources */,
 				829065C81C0C85BF006F2862 /* ParseManager.swift in Sources */,
 				8238560F1C0C7F4500AB2837 /* AppDelegate.swift in Sources */,
+				829065CB1C0CD76B006F2862 /* SceneRenderer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
