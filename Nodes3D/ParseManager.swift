@@ -10,7 +10,7 @@ import Foundation
 import Parse
 class ParseManager{
     
-    func createNode(let name : String, let parent : PFObject, block: (newNode : PFObject?, error : NSError?) -> Void){
+    class func createNode(let name : String, let parent : PFObject, block: (newNode : PFObject?, error : NSError?) -> Void){
         let nodeObject = PFObject(className: "Node")
         nodeObject["name"] = name
         nodeObject["nodes"] = []
@@ -26,7 +26,7 @@ class ParseManager{
         }
     }
     
-    func updateNode(let nodeId : String, let newName : String){
+    class func updateNode(let nodeId : String, let newName : String){
         let query = PFQuery(className: "Node")
         query.getObjectInBackgroundWithId(nodeId) { object, error in
             guard let obj = object else { return }
@@ -35,7 +35,7 @@ class ParseManager{
         }
     }
     
-    func deleteNode(let nodeId: String){
+    class func deleteNode(let nodeId: String){
         let query = PFQuery(className: "Node")
         query.getObjectInBackgroundWithId(nodeId) { object, error in
             guard let obj = object else { return }
@@ -43,13 +43,13 @@ class ParseManager{
         }
     }
     
-    func getRoot(block: ((PFObject?, NSError?) -> Void)?){
+    class func getRoot(block: ((PFObject?, NSError?) -> Void)?){
         let nodeQuery = PFQuery(className: "Node")
         nodeQuery.includeKey("nodes")
         nodeQuery.getObjectInBackgroundWithId("fZQC45KnMu", block: block)
     }
     
-    func getChildNodes(node: PFObject, block: (([PFObject]?, NSError?) -> Void)?){
+    class func getChildNodes(node: PFObject, block: (([PFObject]?, NSError?) -> Void)?){
         let nodeQuery = PFQuery(className: "Node")
         nodeQuery.includeKey("nodes")
         nodeQuery.getObjectInBackgroundWithId(node.objectId!) { nodeObj, error in

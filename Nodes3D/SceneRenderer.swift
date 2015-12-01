@@ -45,17 +45,8 @@ class SceneRenderer : NSObject{
         scene.rootNode.addChildNode(cameraNode)
         cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
         
-        let lightNode = SCNNode()
-        lightNode.light = SCNLight()
-        lightNode.light!.type = SCNLightTypeOmni
-        lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
-        scene.rootNode.addChildNode(lightNode)
-        
-        let ambientLightNode = SCNNode()
-        ambientLightNode.light = SCNLight()
-        ambientLightNode.light!.type = SCNLightTypeAmbient
-        ambientLightNode.light!.color = UIColor.darkGrayColor()
-        scene.rootNode.addChildNode(ambientLightNode)
+        self.addLight(scene.rootNode)
+        self.addAmbientLight(scene.rootNode)
         
         sceneView.scene = scene
         sceneView.allowsCameraControl = true
@@ -69,6 +60,25 @@ class SceneRenderer : NSObject{
         sceneView.addGestureRecognizer(longTapGesture)
     }
     
+    private func addLight(let scnNode : SCNNode){
+        let lightNode = SCNNode()
+        lightNode.light = SCNLight()
+        lightNode.light!.type = SCNLightTypeOmni
+        lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
+        scnNode.addChildNode(lightNode)
+    }
+    
+    private func addAmbientLight(let scnNode: SCNNode){
+        let ambientLightNode = SCNNode()
+        ambientLightNode.light = SCNLight()
+        ambientLightNode.light!.type = SCNLightTypeAmbient
+        ambientLightNode.light!.color = UIColor.darkGrayColor()
+        scnNode.addChildNode(ambientLightNode)
+    }
+    
+    /*
+        by long press you can add new node
+    */
     func longPress(gestureRecongize: UILongPressGestureRecognizer){
         if gestureRecongize.state == .Ended {
             let p = gestureRecongize.locationInView(sceneView)
@@ -85,6 +95,9 @@ class SceneRenderer : NSObject{
         }
     }
     
+    /*
+        by tap you can open/close node
+    */
     func handleTap(gestureRecognize: UIGestureRecognizer) {
         let p = gestureRecognize.locationInView(sceneView)
         let hitResults = sceneView.hitTest(p, options: nil)
@@ -94,11 +107,9 @@ class SceneRenderer : NSObject{
             self.highlightNode(scnNode, color: UIColor.redColor())
             
             if let nodeObj = scnNode.accessibilityElements![0] as? NodeDataSource{
-                print("tap on node : \(nodeObj.root.objectId)")
-                ParseManager().getChildNodes(nodeObj.root) { childrensObj, error in
+                ParseManager.getChildNodes(nodeObj.root) { childrensObj, error in
                     if let childrens = childrensObj{
-                        var childrensDS : [NodeDataSource] = []
-                        childrensDS = childrens.map{
+                        let childrensDS = childrens.map{
                             NodeDataSource(root: $0)
                         }
                         self.dataSource?.setChildrensForNode(childrensDS, node: nodeObj)
@@ -180,7 +191,7 @@ class SceneRenderer : NSObject{
     
     //add node to server
     private func addNode(let name : String, let parent: NodeDataSource){
-        ParseManager().createNode(name, parent: parent.root) { newNode, error in
+        ParseManager.createNode(name, parent: parent.root) { newNode, error in
             guard let newNode = newNode else { return }
             self.dataSource?.addChildForNode(NodeDataSource(root: newNode), node: parent)
             
@@ -191,7 +202,7 @@ class SceneRenderer : NSObject{
     
     //get root from server for init datasource
     private func getRoot(block: (success: Bool) -> Void){
-        ParseManager().getRoot{ object, error in
+        ParseManager.getRoot{ object, error in
             if let obj = object {
                 self.root = obj
                 block(success: true)
