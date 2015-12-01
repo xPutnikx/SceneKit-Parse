@@ -77,9 +77,8 @@ class SceneRenderer : NSObject{
                 let result = hitResults.first!
                 let scnNode = result.node
                 self.highlightNode(scnNode, color: UIColor.greenColor())
-                print("long pressed \(scnNode.accessibilityLabel)")
                 if let nodeObj = scnNode.accessibilityElements![0] as? NodeDataSource{
-                    self.addNode("name_\(NSDate().description)", parent: nodeObj)
+                    self.addNode("name_\(NSDate().timeIntervalSince1970.description)", parent: nodeObj)
                 }
             }
 
@@ -95,6 +94,7 @@ class SceneRenderer : NSObject{
             self.highlightNode(scnNode, color: UIColor.redColor())
             
             if let nodeObj = scnNode.accessibilityElements![0] as? NodeDataSource{
+                print("tap on node : \(nodeObj.root.objectId)")
                 ParseManager().getChildNodes(nodeObj.root) { childrensObj, error in
                     if let childrens = childrensObj{
                         var childrensDS : [NodeDataSource] = []
@@ -115,12 +115,12 @@ class SceneRenderer : NSObject{
         self.objectsScene.rootNode.childNodes.forEach { (e) -> () in
             e.removeFromParentNode()
         }
-        maxX = 1
-        maxY = 1
+        self.maxX = 1
+        self.maxY = 1
         let scnNode = self.objectsScene.rootNode
         let ds = self.dataSource!
         renderLayer(scnNode, ds: ds, x: 0, y: 0)
-        self.cameraNode.position = SCNVector3(x: self.maxX / 2, y: self.maxY / 4, z: 15)
+        self.cameraNode.position = SCNVector3(x: self.maxX / 2, y: self.maxY / 2, z: 15 + abs(self.maxY))
     }
     
     private func renderLayer(let rootNode: SCNNode, let ds: NodeDataSource, let x: Int, let y: Int) -> Int{
@@ -134,9 +134,11 @@ class SceneRenderer : NSObject{
         }else if ds.root["nodes"]?.count > 0{
             scnNode.geometry?.firstMaterial?.diffuse.contents = allowedColor
         }
+        var i = 0
         for e in ds.getNodes(){
+            i++
             let level = renderLayer(scnNode, ds: e, x: tmpX, y: tmpY)
-            if(abs(tmpY - 1) as Int != ds.getNodes().count){
+            if(i != ds.getNodes().count){
                 tmpY--
                 maxY--
             }

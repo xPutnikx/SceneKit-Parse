@@ -50,6 +50,8 @@ class NodeDataSource {
         }
     }
     
+    //check node where we need to set childrens
+    //recursively
     private func checkInDeep(rootNodes: [NodeDataSource], childrens:[NodeDataSource], node: NodeDataSource){
         rootNodes.forEach{ (e) -> () in
             if(e.root.objectId == node.root.objectId){
@@ -64,6 +66,8 @@ class NodeDataSource {
         }
     }
     
+    //check node where we need to set child
+    //recursively
     private func checkInDeep(rootNodes: [NodeDataSource], child: NodeDataSource, node: NodeDataSource){
         rootNodes.forEach{ (e) -> () in
             if(e.root.objectId == node.root.objectId){
